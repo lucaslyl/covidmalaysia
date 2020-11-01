@@ -1,0 +1,142 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+	  <meta name="keywords" content="" />
+	  <meta name="description" content="" />
+    <title>Get Who JSON</title>
+    <style>
+      /* clear fix */
+      .cf { zoom: 1; }
+      .cf:before, .cf:after { content: ""; display: table; }
+      .cf:after { clear: both; }
+
+      p {
+        margin: 0 0 10px 0;
+        padding: 0;
+        font-size: 12px;
+      }
+      .con {
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+      .item {
+        margin: 0 10px 0 0;
+        padding: 0;
+        width: 100px;
+        height: 100px;
+        background-color: #ccc;
+        float: left;
+      }
+      .long_item {
+        margin: 10px 0 0 0;
+        padding: 0;
+        width: 210px;
+        height: 100px;
+        background-color: #ccc;
+        float: left;
+      }
+    </style>
+  </head>
+<body>
+
+<p id="error"></p>
+
+<div id="display" class="con cf">
+</div>
+<div id="long_display">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+    whoAPI();
+	});
+	function whoAPI() {
+	  var params = {
+      'Data': {
+          filterArr: [{
+              filterBy: 'PRODUCTPARENTID',
+              filterByValue: '176'
+           },
+           {
+              filterBy: 'orderBy',
+              filterByValue: 'PRODUCTID'
+           }]
+      },
+      'page': 1,
+      'itemPerPage': 20
+	  };
+	  xmlhttp = new XMLHttpRequest();
+	  //var url = '../../api/ProductFilter/getProduct';
+    var url = '../../AmcorpApi/api/ProductFilter/getProduct';
+	  xmlhttp.open('POST', url, true);
+	  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+	  xmlhttp.send(JSON.stringify(params));
+	  xmlhttp.onload = function() {
+	    //console.log(JSON.parse(xmlhttp.responseText));
+	  }
+	  xmlhttp.onreadystatechange = function () {
+			if (this.readyState == 4){
+			  if (this.status == 200) {
+					json = JSON.parse(this.responseText);
+					//console.log(json);
+					displayWhoData(json);
+				} else {
+					//console.log('error');
+          //$('#error').html('Error JSON');
+				}
+	    }
+	  }
+	}
+	function displayWhoData(r) {
+    var contentDiv = $('#display');
+    var longContentDiv = $('#long_display');
+		if (r.length === 0) {
+			//div.hide();
+		} else {
+      /* sort by display order */
+      r.sort(function(a, b) {
+        return parseFloat(a.DisplayOrder) - parseFloat(b.DisplayOrder);
+      });
+      //console.log(r);
+      lastItem = r.pop();
+      displayItem = r.slice(-1).pop();
+      var num = parseInt(r.length);
+      if (num % 2 === 0){
+        //console.log('even');//2,4,5,8,10
+        $.each(r, function(i, f) {
+          contentDiv.append(
+            '<div class="item">'+
+            '<img src="'+f.CATIPATH+'" />'+
+            '<p>'+f.PRODNAME+'</p>'+
+            '</div>'
+          );
+        });
+      } else {
+        //console.log('odd');//1,3,5,7,9
+        longContentDiv.append(
+          '<div class="long_item">'+
+          '<img src="'+displayItem.CATIPATH+'" />'+
+          '<p>'+displayItem.PRODNAME+'</p>'+
+          '</div>'
+        );
+        finalLastItem = r.pop();
+        $.each(r, function(i, f) {
+          contentDiv.append(
+            '<div class="item">'+
+            '<img src="'+f.CATIPATH+'" />'+
+            '<p>'+f.PRODNAME+'</p>'+
+            '</div>'
+          );
+        });
+      }
+		}
+	}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+	  <meta name="keywords" content="" />
+	  <meta name="description" content="" />
+    <title>Post Form</title>
+  </head>
+<body>
+
+<form id="postForm" name="postForm" method="post" action="">
+  <input type="text" placeholder="name" id="txt_name"><br />
+  <input type="text" placeholder="email" id="txt_email"><br />
+  <input type="text" placeholder="phone" id="txt_phone"><br /><br />
+  <p>EXPERIENCE</p>
+  <input type="text" placeholder="title 1" id="txt_name_1"><br />
+  <input type="text" placeholder="company 1" id="txt_address_1"><br /><br />
+  <input type="text" placeholder="title 2" id="txt_name_2"><br />
+  <input type="text" placeholder="company 2" id="txt_address_2"><br /><br />
+  <p>EDUCATION</p>
+  <input type="text" placeholder="University 1" id="txt_uni_1"><br />
+  <input type="text" placeholder="Course 1" id="txt_course_1"><br /><br />
+  <input type="text" placeholder="University 2" id="txt_uni_2"><br />
+  <input type="text" placeholder="Course 2" id="txt_course_2"><br /><br />
+  <input id="btn_submit" name="btn_submit" type="submit" value="submit">
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+    $('#postForm').submit(function(e) {
+  	  e.preventDefault();
+      // Personal DETAILS
+      var perArr= [];
+      perArr.push({
+        Name: $('#txt_name').val(),
+        Email: $('#txt_email').val(),
+        Phone: $('#txt_phone').val()
+      });
+      var per_json = JSON.parse(JSON.stringify(perArr));
+      //Experience
+      var total_experience_input = 2;
+      var experienceArr= [];
+  		for (i=1; i <= total_experience_input; i++) {
+        experienceArr.push({
+          Title: $('#txt_name_'+i).val(),
+          Company: $('#txt_address_'+i).val()
+        });
+  	  }
+      //console.log(JSON.stringify(experienceArr));
+      var exp_json = JSON.parse(JSON.stringify(experienceArr));
+      //Education
+      var total_edu_input = 2;
+      var eduArr= [];
+  		for (i=1; i <= total_edu_input; i++) {
+        eduArr.push({
+          University: $('#txt_uni_'+i).val(),
+          Course: $('#txt_course_'+i).val()
+        });
+  	  }
+      //console.log(JSON.stringify(eduArr));
+      var edu_json = JSON.parse(JSON.stringify(eduArr));
+      postFormAPI(per_json,exp_json,edu_json);
+  	});
+    //submit to API
+    function postFormAPI(per,exp,edu) {
+  	  var params = {
+        'Data': {
+          'Header': 'JOB APPLICATION FORM',
+          'PERSONAL INFORMATION': per,
+          'EXPERIENCE': exp,
+          'EDUCATION': edu
+        }
+  	  };
+  	  xmlhttp = new XMLHttpRequest();
+  	  var url = '../../api/Email/PostForm';
+  	  xmlhttp.open('POST', url, true);
+  	  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  	  xmlhttp.send(JSON.stringify(params));
+      console.log(params);
+  	  xmlhttp.onload = function() {
+  	    //console.log(JSON.parse(xmlhttp.responseText));
+  	  }
+  	  xmlhttp.onreadystatechange = function () {
+  			if (this.readyState == 4){
+  			  if (this.status == 200) {
+  					json = JSON.parse(this.responseText);
+  					console.log(json);
+  				} else {
+  					console.log('error');
+  				}
+  	    }
+  	  }
+  	}
+	});
+	</script>
+
+</body>
+</html>

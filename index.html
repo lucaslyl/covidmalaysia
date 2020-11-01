@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Meta tags -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+
+    <link ref="stylesheet" href="assets/css/all.min.css">
+    <link ref="stylesheet" href="assets/css/fontawesome.min.css">
+    <link ref="stylesheet" href="assets/css/animate.css">
+    <link ref="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link ref="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link ref="stylesheet" href="assets/css/mainstyle.css">
+    <link ref="stylesheet" href="assets/css/mainstyle.scss">
+    <link ref="stylesheet" href="assets/css/custom-responsive.css">
+    <link ref="stylesheet" href="assets/css/ie_style.css">
+
+    <script type="text/javascript" src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script><!--to sove window.load cross browser-->
+    <script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.waypoints.min.js"></script>
+    <script type="text/javascript" src="assets/js/wow.min.js"></script>
+
+
+    <style>
+        h1 { font-size: 3rem; line-height: 45px; color: #222222; text-transform: uppercase; font-weight: 500; font-family: 'Poppins', sans-serif;}
+        h4 { font-size: 1.5rem; line-height: 24px; color: #222222; font-weight: 500; font-family: 'Poppins', sans-serif; margin-bottom: 1rem;}
+        p { font-size: 1rem; line-height: 24px; color: #222222; font-weight: 500; font-family: 'Poppins', sans-serif; margin-bottom: 1rem;}
+        #total_covid { font-size: 2rem; text-transform: uppercase; font-weight: 700; font-family: 'Poppins', sans-serif; background: rgb(53, 53, 133); padding: 2rem 2rem 2rem 2rem; display: table; position: absolute; top: 0; right: 0; z-index: 100; line-height: 2.5rem; animation: covid_anim .5s; transition: 0.1s ; transform-origin: top right;}
+        .pageWrap { height: 100vh; min-height: 100%;}
+        .pageWrap:after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: #222222; opacity: .7; z-index: 0; }
+
+        .content { z-index: 10; position: relative; }
+        #List { margin: 0; padding: 0; list-style: none; width: 100%; display: flex;}
+        li { font-size: 1rem; line-height: 24px; color: #ffffff; font-weight: 500; font-family: 'Poppins', sans-serif; margin-bottom: 1rem; margin: 10px;}
+        .break { padding: 1rem; background: #353585; border-radius: 35px; }
+
+        .li_activeCases { background: #353585; }
+        .li_inICU { background: #6d10a0; }
+        .li_deceased { background: #f10440; }
+        .li_recovered { background: #3daa91; }
+        .li_respiratoryAid { background: #e88c4b; }
+
+       
+
+
+
+
+
+
+        @media only screen and (max-width: 1024px) {
+            h1 { font-size: 2rem; line-height: 45px; color: #222222; text-transform: uppercase; font-weight: 500; font-family: 'Poppins', sans-serif;}
+            #total_covid {position: relative; margin-left: auto; margin-bottom: 1rem;}
+            #List {display: block;}
+            .pageWrap { height: 100%; }
+        }
+    
+    </style>
+
+    <title>2021 Fun Project</title>
+</head>
+
+
+
+<body>
+
+    <!-- Start -->
+        <div class="pageWrap" style="background-image: url(https://assets.theedgemarkets.com/malaysia-covid-reuters.JPG?null); background-size: cover; background-repeat: no-repeat; position: relative; ">
+
+            <div class="body_container  h-100">
+
+                <span class="text-center text-white" id="total_covid"></span>
+
+
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center justify-content-center" id="row_center">
+                        <div class="col-md-10">
+                            <div class="content">
+                                <h1 class="text-center text-white pb-3" id="heading">马来西亚最新疫情数据</h1>
+                                <h5 class="realTIME text-white text-center mb-4"></h5>
+                                <!-- <h5 class="lastUpdatedAtSource text-white text-center mb-4"></h5> -->
+                           
+                                <ul class="pb-5 justify-content-center" id ="List">
+                                    <!-- list -->
+                                    <li class= "break li_activeCases">1</li>
+                                    <li class= "break li_inICU"></li>
+                                    <li class= "break li_deceased"></li>
+                                    <li class= "break li_recovered"></li>
+                                    <li class= "break li_respiratoryAid"></li>
+                                </ul>
+
+                                
+                                <small class="lastUpdatedAtSource text-center text-white  d-block"></small>
+                                <small class="text-center text-white  d-block">Data source from Kementerian Kesihatan Malaysia<br>Daily updated by Lucas</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    <!-- End -->
+
+</body>
+
+
+
+<script>
+$(document).ready(function () {
+    getStatus()//(first lvl function)
+    var now = new Date();
+
+    var myVar = setInterval(myTimer, 50);
+
+    function myTimer() {
+        var now = new Date();
+        var displayDate =  now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate() + ' '
+
+        var t = displayDate + now.toLocaleTimeString();
+        $(".realTIME").html(t);
+    }
+
+})
+
+
+
+// click browse (first lvl function)
+function getStatus(){
+    $.ajax({
+        url: "https://api.apify.com/v2/key-value-stores/6t65lJVfs3d8s6aKc/records/LATEST?disableRedirect=true",
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        success: function (r,i) {
+            //console.log(r)//all data load 
+
+            const data = $(r)
+            var datalast = data[0]
+
+            console.log(datalast)
+
+
+            var total = $('#total_covid')
+            $(total).html('累积确诊' + '<br>' + datalast.testedPositive)
+
+
+
+            var li_activeCases = $('.li_activeCases')
+            var li_inICU = $('.li_inICU')
+            var li_deceased = $('.li_deceased')
+            var li_recovered = $('.li_recovered')
+            var li_respiratoryAid = $('.li_respiratoryAid')
+
+           
+            
+
+
+            $(li_activeCases).html('现有确诊' + ' ' + datalast.activeCases)
+            $(li_inICU).html('现有重症' + ' ' + datalast.inICU)
+            $(li_deceased).html('死亡' + ' ' + datalast.deceased)
+            $(li_recovered).html('治愈' + ' ' + datalast.recovered)
+            $(li_respiratoryAid).html('需呼吸机' + ' ' + datalast.respiratoryAid)
+
+
+
+            var d = datalast.lastUpdatedAtSource
+            var lastupdate = new Date(d);
+            var display_lastupdateDate =  lastupdate.getFullYear() + '/' + (lastupdate.getMonth()+1) + '/' + lastupdate.getDate() + ' ' + lastupdate.getHours()
+            
+            console.log(display_lastupdateDate)
+
+
+            $('.lastUpdatedAtSource').html('此数据更新于'+lastupdate) 
+            
+        },
+        failure: function (r) {
+            //TextToAppend = response.d;
+            alert('fail')
+        }
+    });
+}
+
+
+
+
+</script>
+
+</html>

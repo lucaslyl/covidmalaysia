@@ -1,0 +1,173 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+	  <meta name="keywords" content="" />
+	  <meta name="description" content="" />
+    <title>Sample Nav</title>
+    <style>
+    ul {
+      list-style: none;
+      position: relative;
+    }
+    a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+    }
+    a:hover {
+      color: #fff;
+    }
+    li {
+      display: inline;
+      background-color: #ccc;
+      float: left;
+      padding: 10px;
+    }
+    li ul li {
+      clear: both;
+      background-color: #ff9900;
+    }
+    ul ul {
+      padding: 0;
+      display: none;
+    }
+    ul li:hover > ul {
+      display: block;
+    }
+    </style>
+  </head>
+<body>
+
+<h1>Nav</h1>
+
+
+  <ul id="menu">
+  </ul>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  getNavAPI();
+
+  /* get Nav Item */
+  function getNavAPI() {
+    var params = {
+      'Data': {
+      	filterArr: [{
+      		filterBy: 'PRODUCTPARENTID',
+      		filterByValue: '17'
+      	},
+      	{
+      		filterBy: 'orderBy',
+      		filterByValue: 'PRODUCTID'
+      	}]
+      },
+      'page': 1,
+      'itemPerPage': 20
+    };
+    xmlhttp = new XMLHttpRequest();
+    var url = '../../AmcorpApi/api/ProductFilter/getProduct';
+    xmlhttp.open('POST', url, true);
+    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xmlhttp.send(JSON.stringify(params));
+    xmlhttp.onload = function() {
+    //console.log(JSON.parse(xmlhttp.responseText));
+    }
+    xmlhttp.onreadystatechange = function () {
+    	if (this.readyState == 4){
+    		if (this.status == 200) {
+    			json = JSON.parse(this.responseText);
+    			console.log(json);
+    			displayNavData(json);
+    		} else {
+    			//console.log('error');
+    		}
+      }
+    }
+  }
+
+  /* display nav item */
+  function displayNavData(r) {
+    var contentDiv = $('#menu');
+    //console.log('total item: '+r.length);
+    if (r.length === 0) {
+      //div.hide();
+    } else {
+      displayItem = r.pop();
+      $.each(r, function(i, f) {
+        getSubNavAPI(f.PRODUCTID);
+      	contentDiv.append(
+      		'<li id='+f.PRODUCTID+'>'+
+      			'<a id="a_'+f.PRODUCTID+'" class="nav-link" href="'+f.EXTURL+'">'+f.PRODNAME+'</a>'+
+            '<ul id="sub_'+f.PRODUCTID+'">'+
+            '</ul>'+
+      		'</li>'
+      	);
+      });
+    }
+  }
+
+  /* get sub nav */
+  function getSubNavAPI(api) {
+    var params = {
+      'Data': {
+      	filterArr: [{
+      		filterBy: 'PRODUCTPARENTID',
+      		filterByValue: api
+      	},
+      	{
+      		filterBy: 'orderBy',
+      		filterByValue: 'PRODUCTID'
+      	}]
+      },
+      'page': 1,
+      'itemPerPage': 20
+    };
+    xmlhttp = new XMLHttpRequest();
+    var url = '../../AmcorpApi/api/ProductFilter/getProduct';
+    xmlhttp.open('POST', url, true);
+    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xmlhttp.send(JSON.stringify(params));
+    xmlhttp.onload = function() {
+    //console.log(JSON.parse(xmlhttp.responseText));
+    }
+    xmlhttp.onreadystatechange = function () {
+    	if (this.readyState == 4){
+    		if (this.status == 200) {
+    			json = JSON.parse(this.responseText);
+          //console.log('sub nav');
+          //console.log(json);
+          displaySubNavData(json,api);
+    		} else {
+    			//console.log('error');
+    		}
+      }
+    }
+  }
+
+  /* display sub nav item */
+  function displaySubNavData(r,id) {
+    //console.log(id);
+    var contentDiv = $('#sub_'+id);
+    console.log('total item: '+r.length);
+    if (r.length === 0) {
+      contentDiv.hide();
+    } else {
+      displayItem = r.pop();
+      $.each(r, function(i, f) {
+      	contentDiv.append(
+      		'<li id='+f.PRODUCTID+'>'+
+      			'<a id="a_'+f.PRODUCTID+'" href="'+f.EXTURL+'">'+f.PRODNAME+'</a>'+
+      		'</li>'
+      	);
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
